@@ -1,0 +1,11 @@
+source,log_message
+ModernCRM, "IP 192.168.100.101 blocked due to potential attack"
+BillingSystem, "User 67890 logged in."
+AnalyticsEngine, "File data_9087.csv uploaded successfully by user User789."
+AnalyticsEngine, "Backup completed successfully."
+ModernHR, "GET /v2/74fbcd123a4b40cdabed8337e4d25b8/servers/detail HTTP/1.1 RCODE  200 len: 1620 time: 0.2013400"
+ModernHR, "Admin access escalation detected for user 5678"
+LegacyCRM, "Case escalation for ticket ID 4589 failed because the assigned support agent is no longer active."
+LegacyCRM, "Invoice generation process aborted for order ID 2345 due to invalid tax calculation module."
+LegacyCRM, "The 'BulkEmailSender' feature is no longer supported. Use 'EmailCampaignManager' for improved functionality."
+LegacyCRM, "The 'ReportGenerator' module will be retired in version 4.0. Please migrate to the 'AdvancedAnalyticsSuite' by Dec 2025"

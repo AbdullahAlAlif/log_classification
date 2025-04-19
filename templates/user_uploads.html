@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Your Uploads - Log Classification System{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <h1 class="text-2xl font-bold text-gray-800">Your Uploads</h1>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <table class="min-w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">File Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Upload Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for file_name, upload_date, table_name in uploads %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ file_name }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">{{ upload_date }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500">
+                        <a href="{{ url_for('view_upload_results', table_name=table_name) }}" 
+                           class="text-blue-500 hover:underline">View Results</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

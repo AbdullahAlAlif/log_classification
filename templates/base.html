@@ -4,6 +4,7 @@
     <title>{% block title %}Log Classification System{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
@@ -26,8 +27,13 @@
             <div class="flex items-center justify-between">
                 <a href="{{ url_for('index') }}" class="text-lg font-semibold">Log Classification</a>
                 <div class="space-x-4">
-                    <a href="#" class="text-white hover:underline">About</a>
-                    <a href="#" class="text-white hover:underline">logout</a>
+                    {% if user %}
+                        <a href="{{ url_for('account') }}" class="text-white hover:underline">Welcome, {{ user }}</a>
+                        <a href="{{ url_for('logout') }}" class="text-white hover:underline">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="text-white hover:underline">Login</a>
+                        <a href="{{ url_for('about') }}" class="text-white hover:underline">About</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
