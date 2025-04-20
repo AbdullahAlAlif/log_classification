@@ -26,20 +26,21 @@ A web-based tool for classifying and analyzing log files using a combination of 
                  Yes                          No  
                   |                           |  
                   v                           v  
-       +-----------------------------+   +-----------------------------+  
-       | Call classify_with_llm()    |   | Call classify_with_regex()  |  
-       |                             |   |                             |  
+       +-----------------------------+   +------------------------------+  
+       | Call classify_with_llm()    |   | Call classify_with_regex()   |  
+       |                             |   |                              |  
        | label = classify_with_llm() |   | label = classify_with_regex()|  
-       +-----------------------------+   +-----------------------------+  
-                  |                           |  
-                  v                           v  
+       +-----------------------------+   +------------------------------+  
+                  |                                 |  
+                  v                                 v  
           +------------------+        +-------------------------------+  
           |  Return label    |        |  Did regex return a label?    |  
           +------------------+        +-------------------------------+  
-                                         |  
-                                     Yes /   \ No  
-                                      /         \  
-                                     v           v  
+                                                |  
+                                              /   \
+                                          Yes       No  
+                                          /          \  
+                                         v            v  
                            +-------------------+  +------------------------------+  
                            |  Return label     |  | Call classify_with_bert()    |  
                            +-------------------+  | label = classify_with_bert() |  
