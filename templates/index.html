@@ -7,22 +7,26 @@
         Effortlessly classify and manage your logs. Upload your log files to get instant insights and view detailed results.
     </p>
     
+    {% if user %}
     <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto" style="gap: 30px;">
         <div class="card">
             <h2 class="card-title">Upload Logs</h2>
             <p class="card-description">Upload your log files for instant classification and analysis.</p>
             <a href="{{ url_for('upload_file') }}" class="card-button">Start Upload</a>
         </div>
-        
         <div class="card">
             <h2 class="card-title">View Results</h2>
             <p class="card-description">Check previously classified logs and their categories.</p>
-            {% if user %}
             <a href="{{ url_for('user_uploads') }}" class="card-button">View Results</a>
-            {% else %}
-            <a href="{{ url_for('results') }}" class="card-button">View Results</a>
-            {% endif %}
         </div>
     </div>
+        {%else%}
+        <div class="card">
+            <h2 class="card-title">Upload Logs</h2>
+            <p class="card-description">Upload your log files for instant classification and analysis.</p>
+            <a href="{{ url_for('upload_file') }}" class="card-button">Start Upload</a>
+        </div>
+        {% endif %}
+    
 </div>
 {% endblock %}

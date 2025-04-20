@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import pandas as pd
 import os
+import json
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from functools import lru_cache
@@ -94,6 +95,9 @@ def get_classification_results():
     except Exception:
         return None
 
+# Temporary storage for non-logged-in users
+temporary_results = None
+
 @app.route('/')
 def index():
     return render_template('index.html', user=session.get('user'))
@@ -138,6 +142,7 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('user', None)
+    session.pop('current_table_name', None)
     flash('You have been logged out.')
     return redirect(url_for('index'))
 
@@ -150,6 +155,7 @@ def account():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
+    global temporary_results  # Ensure we use the global variable
     try:
         if request.method == 'POST':
             if 'file' not in request.files:
@@ -162,39 +168,49 @@ def upload_file():
                 return redirect(url_for('upload_file'))
             
             if file and allowed_file(file.filename):
-                # Save file
-                file_name = file.filename.rsplit('.', 1)[0]
-                upload_date = pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
-                table_name = generate_unique_table_name(file_name)
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
                 file.save(filepath)
 
-                # Classify and save results in a database table
-                classify_csv(filepath)
-                conn = sqlite3.connect(DB_PATH)
-                cursor = conn.cursor()
-                cursor.execute(f'''
-                    CREATE TABLE IF NOT EXISTS {table_name} (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        source TEXT,
-                        log_message TEXT,
-                        target_label TEXT
-                    )
-                ''')
-                df = pd.read_csv('dataset/output.csv')
-                df.to_sql(table_name, conn, if_exists='append', index=False)
+                # Classify the file
+                try:
+                    output_file = classify_csv(filepath)
+                    df = pd.read_csv(output_file)
 
-                # Save upload metadata if the user is logged in
-                if 'user' in session:
-                    cursor.execute('''
-                        INSERT INTO uploads (username, file_name, upload_date, table_name)
-                        VALUES (?, ?, ?, ?)
-                    ''', (session['user'], file_name, upload_date, table_name))
-                    conn.commit()
+                    # If logged in, save to the database
+                    if 'user' in session:
+                        conn = sqlite3.connect(DB_PATH)
+                        cursor = conn.cursor()
+                        file_name = file.filename.rsplit('.', 1)[0]
+                        upload_date = pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')
+                        table_name = generate_unique_table_name(file_name)
+                        cursor.execute(f'''
+                            CREATE TABLE IF NOT EXISTS {table_name} (
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                source TEXT,
+                                log_message TEXT,
+                                target_label TEXT
+                            )
+                        ''')
+                        df.to_sql(table_name, conn, if_exists='append', index=False)
+                        cursor.execute('''
+                            INSERT INTO uploads (username, file_name, upload_date, table_name)
+                            VALUES (?, ?, ?, ?)
+                        ''', (session['user'], file_name, upload_date, table_name))
+                        conn.commit()
+                        conn.close()
 
-                conn.close()
-                flash('File uploaded and classified successfully.')
-                return redirect(url_for('results'))
+                        # Redirect logged-in users to /user/uploads
+                        flash('File uploaded and classified successfully.')
+                        return redirect(url_for('user_uploads'))
+
+                    # For non-logged-in users, store results temporarily
+                    session['results'] = df.to_json(orient='split')
+                    temporary_results = df.copy()  # fallback for legacy
+                    flash('File uploaded and classified successfully.')
+                    return redirect(url_for('results'))
+                except Exception as e:
+                    flash(f"Error processing file: {str(e)}")
+                    return redirect(url_for('upload_file'))
             else:
                 flash('Invalid file type')
                 return redirect(url_for('upload_file'))
@@ -210,6 +226,9 @@ def user_uploads():
     if 'user' not in session:
         flash('Please log in to view your uploads.')
         return redirect(url_for('login'))
+    
+    # Clear the current_table_name when leaving the results/filter context
+    session.pop('current_table_name', None)
     
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -228,7 +247,8 @@ def view_upload_results(table_name):
     if 'user' not in session:
         flash('Please log in to view results.')
         return redirect(url_for('login'))
-    
+    # Store the current table_name in session for filtering
+    session['current_table_name'] = table_name
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute('SELECT 1 FROM uploads WHERE table_name = ? AND username = ?', (table_name, session['user']))
@@ -236,23 +256,49 @@ def view_upload_results(table_name):
         conn.close()
         flash('You do not have access to this upload.')
         return redirect(url_for('user_uploads'))
-    
     df = pd.read_sql_query(f'SELECT * FROM {table_name}', conn)
     conn.close()
     return render_template('results.html', 
                            label_counts=df['target_label'].value_counts().to_dict(),
                            total_logs=len(df),
                            labels=df['target_label'].unique(),
-                           user=session.get('user'))  # Pass user to the template
+                           user=session.get('user'))
 
 @app.route('/results')
 def results():
+    global temporary_results  # Use the global variable for temporary storage
     try:
-        cached_results = get_classification_results()
-        if not cached_results:
-            flash('No classification results found')
-            return redirect(url_for('upload_file'))
-        
+        if 'user' in session:
+            # Use the table_name from session if present
+            table_name = session.get('current_table_name')
+            if table_name:
+                conn = sqlite3.connect(DB_PATH)
+                df = pd.read_sql_query(f'SELECT * FROM {table_name}', conn)
+                conn.close()
+                cached_results = {
+                    'label_counts': df['target_label'].value_counts().to_dict(),
+                    'total_logs': len(df),
+                    'unique_labels': df['target_label'].unique()
+                }
+            else:
+                cached_results = get_classification_results()
+        else:
+            # Non-logged-in users: Use the session-stored results
+            df = None
+            if 'results' in session:
+                df = pd.read_json(session['results'], orient='split')
+            elif temporary_results is not None:
+                df = temporary_results
+            if df is None or df.empty:
+                flash('No classification results found')
+                return redirect(url_for('upload_file'))
+            
+            cached_results = {
+                'label_counts': df['target_label'].value_counts().to_dict(),
+                'total_logs': len(df),
+                'unique_labels': df['target_label'].unique()
+            }
+
         return render_template('results.html', 
                                label_counts=cached_results['label_counts'],
                                total_logs=cached_results['total_logs'],
@@ -263,14 +309,61 @@ def results():
         return str(e), 500
 
 @app.route('/filter/<label>')
-@lru_cache(maxsize=32)
 def filter_logs(label):
+    global temporary_results  # Use the global variable for non-logged-in users
     try:
-        df = pd.read_csv('dataset/output.csv')
-        filtered_logs = df[df['target_label'] == label].to_dict('records')
-        return render_template('filtered.html', logs=filtered_logs, label=label)
+        if 'user' in session:
+            # Use the table_name from session if present
+            table_name = session.get('current_table_name')
+            if table_name:
+                conn = sqlite3.connect(DB_PATH)
+                df = pd.read_sql_query(
+                    f'SELECT source, log_message FROM {table_name} WHERE target_label = ?',
+                    conn, params=(label,))
+                conn.close()
+            else:
+                # fallback to previous logic (most recent upload)
+                conn = sqlite3.connect(DB_PATH)
+                cursor = conn.cursor()
+                cursor.execute('''
+                    SELECT table_name
+                    FROM uploads
+                    WHERE username = ?
+                    ORDER BY upload_date DESC
+                    LIMIT 1
+                ''', (session['user'],))
+                result = cursor.fetchone()
+                conn.close()
+                if not result:
+                    flash('No classification results found')
+                    return redirect(url_for('user_uploads'))
+                table_name = result[0]
+                conn = sqlite3.connect(DB_PATH)
+                df = pd.read_sql_query(
+                    f'SELECT source, log_message FROM {table_name} WHERE target_label = ?',
+                    conn, params=(label,))
+                conn.close()
+        else:
+            # Non-logged-in users: Use the session-stored results
+            df = None
+            if 'results' in session:
+                df = pd.read_json(session['results'], orient='split')
+            elif temporary_results is not None:
+                df = temporary_results
+            if df is None or df.empty:
+                flash('No classification results found')
+                return redirect(url_for('upload_file'))
+            
+            # Filter the temporary results for the selected label
+            df = df[df['target_label'] == label]
+
+        # Convert the filtered DataFrame to a list of dictionaries for rendering
+        filtered_logs = df.to_dict('records')
+
+        return render_template('filtered.html', logs=filtered_logs, label=label, user=session.get('user'))
     except Exception as e:
-        return f"Error filtering logs: {str(e)}"
+        print(f"Error filtering logs: {str(e)}")
+        return str(e), 500
 
 @app.route('/about')
 def about():
@@ -285,8 +378,23 @@ def internal_error(error):
 def not_found_error(error):
     return str(error), 404
 
+def clear_temporary_data():
+    """Clear any temporary data for non-logged-in users."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    try:
+        # Drop all temporary tables created for non-logged-in users
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name LIKE 'temp_%'")
+        temp_tables = cursor.fetchall()
+        for table in temp_tables:
+            cursor.execute(f"DROP TABLE IF EXISTS {table[0]}")
+        conn.commit()
+    finally:
+        conn.close()
+
 # Modify the bottom of the file to properly expose the Flask app
 def create_app():
+    clear_temporary_data()  # Clear temporary data on server start
     return app
 
 application = app

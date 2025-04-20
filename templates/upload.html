@@ -3,7 +3,7 @@
 {% block title %}Upload Logs - Log Classification System{% endblock %}
 
 {% block content %}
-<div class="card max-w-2xl">
+<div class="card max-w-2xl {% if not user %}mx-auto mt-20{% endif %}">
     <h1 class="card-title">Upload Log File</h1>
     
     {% if error %}
