@@ -1,59 +1,199 @@
+/* General Body Styling */
 body {
     font-family: 'Inter', sans-serif;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #f9fafb; /* Light gray background for better contrast */
+    color: #4a5568; /* Neutral text color for readability */
 }
 
+/* Navbar Styling */
 .gradient-bg {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #4f46e5 0%, #6d28d9 100%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+nav a {
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+nav a:hover {
+    color: #d1d5db; /* Light gray hover color */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+/* Content Wrapper */
 .content-wrapper {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding: 2rem;
 }
 
+/* Card Styling */
 .card {
     background-color: white;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    max-width: 600px;
+    margin: 1rem auto;
 }
 
 .card:hover {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px); /* Lift effect */
 }
 
+/* Typography */
 .card-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #4a5568;
-    margin-bottom: 1rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1f2937; /* Darker text for titles */
+    margin-bottom: 1.5rem;
 }
 
 .card-description {
     font-size: 1.125rem;
-    color: #718096;
-    margin-bottom: 1.5rem;
+    color: #6b7280; /* Subtle gray for descriptions */
+    margin-bottom: 2rem;
+    line-height: 1.6;
 }
 
+/* Button Styling */
 .card-button {
     display: inline-block;
     padding: 0.75rem 1.5rem;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
     font-size: 1rem;
     font-weight: 600;
     color: white;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #4f46e5 0%, #6d28d9 100%);
     text-decoration: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .card-button:hover {
     opacity: 0.9;
+    transform: translateY(-3px); /* Lift effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+
+thead {
+    background-color: #f3f4f6; /* Light gray for table headers */
+}
+
+thead th {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #6b7280;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: #f9fafb; /* Subtle hover effect */
+}
+
+tbody td {
+    font-size: 0.875rem;
+    color: #4a5568;
+    padding: 0.75rem;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #1f2937; /* Dark footer for contrast */
+    color: #d1d5db; /* Light gray text */
+    padding: 2rem 0;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Form Styling */
+form input[type="text"],
+form input[type="password"],
+form input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: #4a5568;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="password"]:focus,
+form input[type="file"]:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+    outline: none;
+}
+
+/* Error Message Styling */
+.bg-red-100 {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card,
+form,
+table {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-wrapper {
+        padding: 1rem;
+    }
+
+    .card {
+        padding: 2rem;
+    }
+
+    nav a {
+        font-size: 0.875rem;
+    }
+
+    footer {
+        font-size: 0.75rem;
+    }
 }

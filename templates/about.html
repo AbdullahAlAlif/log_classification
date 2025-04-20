@@ -4,13 +4,27 @@
 
 {% block content %}
 <div class="card max-w-3xl mx-auto">
-    <h1 class="card-title">About Log Classification System</h1>
-    <p class="text-lg text-gray-600">
+    <h1 class="card-title text-justify">About Log Classification System</h1>
+    <p class="text-lg text-gray-600 mb-4 text-justify">
         The Log Classification System is a powerful tool designed to help you classify and analyze log files effortlessly. 
         Whether you're a system administrator, developer, or analyst, this tool provides insights into your logs with ease.
     </p>
-    <p class="text-lg text-gray-600 mt-4">
+    <p class="text-lg text-gray-600 mb-4 text-justify">
         Upload your log files, classify them, and view detailed results. Registered users can also save their uploads and access them anytime.
+    </p>
+    <p class="text-lg text-gray-600 mb-4 text-justify">
+        The system is built using Python and Flask, ensuring a smooth and efficient user experience.
+    </p>
+    <ul class="list-disc list-inside text-lg text-gray-600 mb-4 text-justify">
+        <li>It uses Regular Expressions (Regex) for fast classification of logs that follow patterns.</li>
+        <li>It uses Logistic Regression (ML algorithm) for classification of logs that don't follow patterns. We used Sentence Transformer to create embeddings of logs and train the model on them.</li>
+        <li>It uses the Ollama open-source LLM model for classification of logs that don't have enough data points to train on.</li>
+    </ul>
+    <p class="text-lg text-gray-600 mb-4 text-justify">
+        Thus, it ensures a balance of accuracy and speed.
+    </p>
+    <p class="text-lg text-gray-400 text-justify"></p>
+        The system was trained on a dataset that can classify logs into 5 categories (Security Alert, Error, HTTP Status, Workflow, Deprecations). The rest will produce "Unknown." However, it can be developed for other datasets with some fine-tuning, making it a versatile solution for different log formats and structures.
     </p>
 </div>
 {% endblock %}
