@@ -10,8 +10,8 @@
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {% for label in labels %}
         <a href="{{ url_for('filter_logs', label=label) }}" 
-           class="block bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ label }}</h3>
+           class="block bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow {% if label == 'Unknown' %}border border-red-500 {% elif label == 'Security Alert' %}border border-yellow-600{% endif %}">
+            <h3 class="text-xl font-semibold {% if label == 'Unknown' %}text-red-500{% elif label == 'Security Alert' %}text-yellow-600{% else %}text-gray-800{% endif %} mb-2">{{ label }}</h3>
             <p class="text-gray-600">Count: {{ label_counts[label] }}</p>
         </a>
         {% endfor %}
