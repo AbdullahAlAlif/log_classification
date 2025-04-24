@@ -84,8 +84,10 @@ The system can classify logs into categories such as:
    - Add your Groq API key:
      ```
      GROQ_API_KEY=your_groq_api_key_here
-     SECRET_KEY=your_flask_secret_key
+     FLASK_APP="app:application"
      ```
+ - pip install python-dotenv   : run this command to use the environment variable
+
 
 4. **Run the Application**
    ```
@@ -114,8 +116,9 @@ The system can classify logs into categories such as:
 ## Notes
 
 - The system uses a hybrid approach for best accuracy and speed.
-- The LLM model is accessed via the Groq API (see `.env` setup).
+- The LLM model is accessed via the Groq API (see `.env` setup). 
 - The ML model uses sentence embeddings and logistic regression.
+- All Screenshots of The system is uploaded at Screenshots directory.
 
 ## License
 
