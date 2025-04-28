@@ -128,13 +128,13 @@ The system can classify logs into categories such as:
 
 Below are screenshots of the application's UI, demonstrating its features and user experience:
 
-![Screenshot 1](Screenshots/screenshot1.png)
-![Screenshot 2](Screenshots/screenshot2.png)
-![Screenshot 3](Screenshots/screenshot3.png)
-![Screenshot 4](Screenshots/screenshot4.png)
-![Screenshot 5](Screenshots/screenshot5.png)
-![Screenshot 6](Screenshots/screenshot6.png)
-![Screenshot 7](Screenshots/screenshot7.png)
+![Screenshot 1](Screenshots/image1.png)
+![Screenshot 2](Screenshots/image2.png)
+![Screenshot 3](Screenshots/image3.png)
+![Screenshot 4](Screenshots/image4.png)
+![Screenshot 5](Screenshots/image5.png)
+![Screenshot 6](Screenshots/imaget6.png)
+![Screenshot 7](Screenshots/image7.png)
 
 
 ## License
