@@ -1,6 +1,6 @@
 # Log Classification System
 
-A web-based tool for classifying and analyzing log files using a combination of Regular Expressions, Machine Learning (BERT) - logistic regression, and Large Language Models (LLMs). Built with Python and Flask.
+A web-based tool for classifying and analyzing log files using a combination of Regular Expressions, Machine Learning  - logistic regression, and Large Language Models (LLMs). Built with Python and Flask.
 
 **This application is specially built to efficiently detect "Errors" and "Critical Errors" in log files, ensuring these are always recognized, no matter the log format. Thus, putting organization's security on top**
 
@@ -67,7 +67,7 @@ The system can classify logs into categories such as:
 - HTTP Status
 - Workflow
 - Deprecations
-- Unknown (for unrecognized patterns)
+- Unknown (for unrecognized patterns) 
 
 ## Setup Instructions
 
