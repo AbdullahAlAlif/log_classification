@@ -1,6 +1,6 @@
 # Log Classification System
 
-A web-based tool for classifying and analyzing log files using a combination of Regular Expressions, Machine Learning (BERT) - logistic regression, and Large Language Models (LLMs). Built with Python and Flask.
+A web-based tool for classifying and analyzing log files using a combination of Regular Expressions, Machine Learning  - logistic regression, and Large Language Models (LLMs). Built with Python and Flask.
 
 **This application is specially built to efficiently detect "Errors" and "Critical Errors" in log files, ensuring these are always recognized, no matter the log format. Thus, putting organization's security on top**
 
@@ -67,7 +67,7 @@ The system can classify logs into categories such as:
 - HTTP Status
 - Workflow
 - Deprecations
-- Unknown (for unrecognized patterns)
+- Unknown (for unrecognized patterns) 
 
 ## Setup Instructions
 
@@ -128,21 +128,14 @@ The system can classify logs into categories such as:
 
 Below are screenshots of the application's UI, demonstrating its features and user experience:
 
-<p align="center">
-  <img src="Screenshots/screenshot1.png" alt="Screenshot 1" width="600"/>
-  <br>
-  <img src="Screenshots/screenshot2.png" alt="Screenshot 2" width="600"/>
-  <br>
-  <img src="Screenshots/screenshot3.png" alt="Screenshot 3" width="600"/>
-  <br>
-  <img src="Screenshots/screenshot4.png" alt="Screenshot 4" width="600"/>
-  <br>
-  <img src="Screenshots/screenshot5.png" alt="Screenshot 5" width="600"/>
-  <br>
-  <img src="Screenshots/screenshot6.png" alt="Screenshot 6" width="600"/>
-  <br>
-  <img src="Screenshots/screenshot7.png" alt="Screenshot 7" width="600"/>
-</p>
+![Screenshot 1](Screenshots/image1.png)
+![Screenshot 2](Screenshots/image2.png)
+![Screenshot 3](Screenshots/image3.png)
+![Screenshot 4](Screenshots/image4.png)
+![Screenshot 5](Screenshots/image5.png)
+![Screenshot 6](Screenshots/imaget6.png)
+![Screenshot 7](Screenshots/image7.png)
+
 
 ## License
 
