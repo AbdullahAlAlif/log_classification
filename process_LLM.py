@@ -1,41 +1,30 @@
+import os
 from dotenv import load_dotenv
-from groq import Groq
+from google import genai
 
-load_dotenv() #loads the environemtn variables from .env file which is ouire GROQ_API_KEY for LLM model
+load_dotenv()  # Loads the environment variables from .env file which includes G_API_KEY for the Gemini model
 
 # Debug: Check if API key is loaded
-#api_key = os.getenv("GROQ_API_KEY")
+#api_key = os.getenv("G_API_KEY")
 #if not api_key:
-#    print("Error: GROQ_API_KEY not found in environment variables")
+#    print("Error: G_API_KEY not found in environment variables")
 #    exit(1)
 #else:
 #    print("API key found with length:", len(api_key))
-#okh so deepseek-r1-distill-lamma-70b dosent exists so we will llama-3.3-70b-versatile
-groq = Groq() #groq will use the variable (ALI KEY)
+
+client = genai.Client(api_key=os.getenv("G_API_KEY"))  # Initialize the Gemini API client with the API key
 
 
 def classify_with_llm(log_message):
-    prompt = f"""You are a log message classifier machine answers in one Word and one Word only. Your task is to analyze the following log message and classify it into one of these categories: ('Workflow Error' , 'Deprications' or "Unknown").
-    The log message is: {log_message} .
-    Again Respond with ONLY One Word NO preamble"""
+    prompt = f"""You are a log message classifier machine answers in one Word and one Word only. Your task is to analyze the following log message and classify it into one of these categories: ('Workflow Error', 'Deprications', 'Critical Error', 'Error', or "Unknown").  
+            The log message is: {log_message} .  
+            Again Respond with ONLY One Word NO preambles or explanations."""
   
-    response=groq.chat.completions.create(
-        model="llama-3.3-70b-versatile",  # The model to use for generating completions
-        messages=[
-            {
-                "role": "user",  # The role of the message sender (user or assistant)
-                "content": prompt  # The actual message content
-            }
-        ],
-        temperature=0.7,  # Controls randomness: 0.0 is deterministic, higher values (up to 1.0) increase randomness
-        max_tokens=4096,  # Maximum number of tokens to generate in the response
-        top_p=0.4,  # Controls diversity via nucleus sampling: lower values make output more focused
-        stream=False  # Whether to stream the response (True) or return it all at once (False)
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",  # The Gemini model to use for generating completions
+        contents=prompt
     )
-    return response.choices[0].message.content
-# Print the response
-#print("\nModel Response:")
-#rint(response.choices[0].message.content)
+    return response.text.strip()  # Return the response text stripped of any extra whitespace
 
 
 if __name__ == "__main__":

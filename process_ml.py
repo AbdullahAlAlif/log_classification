@@ -3,10 +3,10 @@ from joblib import load
  # Initialize the BERT model for embeddings
 model = SentenceTransformer('all-MiniLM-L6-v2') #we dont want to load the model everytime we call the function
 # Load the saved classifier
-classifier_path = "models\log_classification_model.joblib"
+classifier_path = r"models/log_classification_model_knn.joblib"  # Use raw string and forward slashes
 classifier = load(classifier_path)
     
-def classify_with_bert(log_msg):
+def classify_with_ml(log_msg):
 
     # Get embedding for the log message
     embedding = model.encode([log_msg])[0]
@@ -33,6 +33,5 @@ if __name__ =="__main__":
         "Server A790 was restarted unexpectedly during the process of data transfer"
     ]
     for log in logs:
-        label = classify_with_bert(log)
+        label = classify_with_ml(log)  # Fix function name
         print(log, "->", label)
-    

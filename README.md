@@ -2,6 +2,8 @@
 
 A web-based tool for classifying and analyzing log files using a combination of Regular Expressions, Machine Learning (BERT) - logistic regression, and Large Language Models (LLMs). Built with Python and Flask.
 
+**This application is specially built to efficiently detect "Errors" and "Critical Errors" in log files, ensuring these are always recognized, no matter the log format. Thus, putting organization's security on top**
+
 ## Features
 
 - **User Authentication:** Register, log in, and manage your account.
@@ -9,8 +11,8 @@ A web-based tool for classifying and analyzing log files using a combination of 
 - **Classification Pipeline:**
   - Uses Regex for fast pattern-based classification.
   - Applies a BERT-based ML model for logs not matching patterns.
-  - Uses an LLM (via Groq API) for complex or rare log types.
-
+  - **Uses the Gemini API by Google Studio** for complex or rare log types.
+- **Efficient Error Detection:** The system is optimized to always detect "Errors" and "Critical Errors" with high reliability and speed, regardless of log structure.
 
 ```
                     +----------------------+  
@@ -61,6 +63,7 @@ A web-based tool for classifying and analyzing log files using a combination of 
 The system can classify logs into categories such as:
 - Security Alert
 - Error
+- Critical Error
 - HTTP Status
 - Workflow
 - Deprecations
@@ -81,13 +84,15 @@ The system can classify logs into categories such as:
 
 3. **Environment Variables**
    - Create a `.env` file in the root directory.
-   - Add your Groq API key:
+   - Add your Gemini API key:
      ```
-     GROQ_API_KEY=your_groq_api_key_here
+     G_API_KEY=your_gemini_api_key_here
      FLASK_APP="app:application"
      ```
- - pip install python-dotenv   : run this command to use the environment variable
-
+   - Install `python-dotenv` to use environment variables:
+     ```
+     pip install python-dotenv
+     ```
 
 4. **Run the Application**
    ```
@@ -115,10 +120,29 @@ The system can classify logs into categories such as:
 
 ## Notes
 
-- The system uses a hybrid approach for best accuracy and speed.
-- The LLM model is accessed via the Groq API (see `.env` setup). 
+- The system uses the **Gemini API by Google Studio** for LLM-based classification, ensuring high accuracy for complex log types.
 - The ML model uses sentence embeddings and logistic regression.
 - All Screenshots of The system is uploaded at Screenshots directory.
+
+## Screenshots
+
+Below are screenshots of the application's UI, demonstrating its features and user experience:
+
+<p align="center">
+  <img src="Screenshots/screenshot1.png" alt="Screenshot 1" width="600"/>
+  <br>
+  <img src="Screenshots/screenshot2.png" alt="Screenshot 2" width="600"/>
+  <br>
+  <img src="Screenshots/screenshot3.png" alt="Screenshot 3" width="600"/>
+  <br>
+  <img src="Screenshots/screenshot4.png" alt="Screenshot 4" width="600"/>
+  <br>
+  <img src="Screenshots/screenshot5.png" alt="Screenshot 5" width="600"/>
+  <br>
+  <img src="Screenshots/screenshot6.png" alt="Screenshot 6" width="600"/>
+  <br>
+  <img src="Screenshots/screenshot7.png" alt="Screenshot 7" width="600"/>
+</p>
 
 ## License
 

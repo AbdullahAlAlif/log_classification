@@ -1,5 +1,5 @@
 from process_regex import classify_with_regex
-from process_bert import classify_with_bert
+from process_ml import classify_with_ml
 from process_LLM import classify_with_llm
 
 
@@ -9,7 +9,7 @@ def classify_log(source, log_msg):
     else:
         label = classify_with_regex(log_msg)
         if not label:
-            label = classify_with_bert(log_msg)
+            label = classify_with_ml(log_msg)
     return label
 
 

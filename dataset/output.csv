@@ -5,22 +5,22 @@ ModernCRM," ""System reboot triggered by admin User452.""",Security Alert
 ModernCRM," ""Data synchronization completed successfully.""",Error
 ModernCRM," ""Warning: unusual login pattern detected for User678.""",Security Alert
 BillingSystem," ""User 78901 logged in.""",Security Alert
-BillingSystem," ""Payment processing failed for transaction ID 45981.""",Unknown
-BillingSystem," ""Invoice generated for customer ID 2345.""",Unknown
+BillingSystem," ""Payment processing failed for transaction ID 45981.""",Security Alert
+BillingSystem," ""Invoice generated for customer ID 2345.""",Critical Error
 BillingSystem," ""Credit limit exceeded for User325.""",Security Alert
 BillingSystem," ""Subscription renewed for account ID 8749.""",Security Alert
-AnalyticsEngine," ""File analysis_data_2025.csv uploaded successfully by User112.""",Unknown
+AnalyticsEngine," ""File analysis_data_2025.csv uploaded successfully by User112.""",Security Alert
 AnalyticsEngine," ""Database optimization completed successfully.""",Unknown
 AnalyticsEngine," ""Data visualization generated for report ID 5589.""",Security Alert
-AnalyticsEngine," ""Export failed for analysis ID 1234 due to corrupted file.""",Unknown
+AnalyticsEngine," ""Export failed for analysis ID 1234 due to corrupted file.""",Security Alert
 AnalyticsEngine," ""User User409 accessed restricted report ID 678.""",Security Alert
 ModernHR," ""Admin access granted for User2345.""",Security Alert
-ModernHR," ""Performance review data uploaded for department ID 45.""",Unknown
+ModernHR," ""Performance review data uploaded for department ID 45.""",Security Alert
 ModernHR," ""GET /v3/status HTTP/1.1 RCODE 200 len: 1640 time: 0.198745.""",HTTP Status
 ModernHR," ""Employee salary update completed for User1123.""",Security Alert
 ModernHR," ""Unauthorized access attempt detected for User884.""",Security Alert
-LegacyCRM," ""Ticket escalation for case ID 998 failed due to inactive support agent.""",Workflow
-LegacyCRM," ""Payment module aborted for order ID 4758 due to invalid calculation.""",Workflow
+LegacyCRM," ""Ticket escalation for case ID 998 failed due to inactive support agent.""",Error
+LegacyCRM," ""Payment module aborted for order ID 4758 due to invalid calculation.""",Error
 LegacyCRM," ""The 'QuickResponder' feature has been deprecated. Use 'ResponseManager' instead.""",Deprications
 LegacyCRM," ""The 'StatsGenerator' module will be retired in version 5.0. Migrate to 'InsightSuite' by Dec 2026.""",Deprications
-LegacyCRM," ""Account access locked for User346 due to repeated failed login attempts.""",Unknown
+LegacyCRM," ""Account access locked for User346 due to repeated failed login attempts.""",Error
