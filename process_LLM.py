@@ -16,7 +16,7 @@ client = genai.Client(api_key=os.getenv("G_API_KEY"))  # Initialize the Gemini A
 
 
 def classify_with_llm(log_message):
-    prompt = f"""You are a log message classifier machine answers in one Word and one Word only. Your task is to analyze the following log message and classify it into one of these categories: ('Workflow Error', 'Deprications', 'Critical Error', 'Error', or "Unknown").  
+    prompt = f"""You are a log message classifier machine answers in one Word and one Word only. Your task is to analyze the following log message and classify it into one of these categories: ('Workflow Error', 'Deprications',  or "Unknown").  
             The log message is: {log_message} .  
             Again Respond with ONLY One Word NO preambles or explanations."""
   

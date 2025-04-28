@@ -12,7 +12,7 @@ A web-based tool for classifying and analyzing log files using a combination of 
   - Uses Regex for fast pattern-based classification.
   - Applies a BERT-based ML model for logs not matching patterns.
   - **Uses the Gemini API by Google Studio** for complex or rare log types.
-- **Efficient Error Detection:** The system is optimized to always detect "Errors" and "Critical Errors" with high reliability and speed, regardless of log structure.
+
 
 ```
                     +----------------------+  
