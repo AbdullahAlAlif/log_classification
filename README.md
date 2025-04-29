@@ -44,8 +44,8 @@ A web-based tool for classifying and analyzing log files using a combination of 
                                           /          \  
                                          v            v  
                            +-------------------+  +------------------------------+  
-                           |  Return label     |  | Call classify_with_bert()    |  
-                           +-------------------+  | label = classify_with_bert() |  
+                           |  Return label     |  | Call classify_with_ml()    |  
+                           +-------------------+  | label = classify_with_ml() |  
                                                   +------------------------------+  
                                                                   |  
                                                                   v  
