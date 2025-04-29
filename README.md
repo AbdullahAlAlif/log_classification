@@ -133,7 +133,7 @@ Below are screenshots of the application's UI, demonstrating its features and us
 ![Screenshot 3](Screenshots/image3.png)
 ![Screenshot 4](Screenshots/image4.png)
 ![Screenshot 5](Screenshots/image5.png)
-![Screenshot 6](Screenshots/imaget6.png)
+![Screenshot 6](Screenshots/image6.png)
 ![Screenshot 7](Screenshots/image7.png)
 
 
